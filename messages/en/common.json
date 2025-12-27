@@ -1,0 +1,17 @@
+{
+  "site": {
+    "title": "Home",
+    "description": "Welcome to my personal website"
+  },
+  "nav": {
+    "home": "Home",
+    "articles": "Articles"
+  },
+  "home": {
+    "welcome": "Welcome",
+    "subtitle": "Everything is an article"
+  },
+  "language": {
+    "switch": "Switch Language"
+  }
+}

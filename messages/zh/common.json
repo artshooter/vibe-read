@@ -1,0 +1,17 @@
+{
+  "site": {
+    "title": "个人主页",
+    "description": "欢迎来到我的个人网站"
+  },
+  "nav": {
+    "home": "首页",
+    "articles": "文章"
+  },
+  "home": {
+    "welcome": "欢迎",
+    "subtitle": "一切皆文章"
+  },
+  "language": {
+    "switch": "切换语言"
+  }
+}

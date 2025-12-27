@@ -1,0 +1,227 @@
+# 文章创作流程 SOP
+
+本文档是给 AI 使用的操作指南。当用户说"帮我创建一篇新文章"时，按照以下流程执行。
+
+---
+
+## Step 1: 获取文章内容
+
+询问用户获取内容的方式：
+
+### 方式 A：用户已有文档
+1. 询问用户文件路径
+2. 使用 Read 工具读取文件
+3. 根据内容生成 slug（文章的 URL 名称）：
+   - 如果内容有明确标题 → 使用标题的英文版（kebab-case）
+   - 如果没有标题 → 根据主题自行拟定英文名称
+4. 创建 `app/components/[slug]/content.md`
+5. 将读取的内容写入 content.md
+
+### 方式 B：用户直接提供内容
+1. 提示用户直接粘贴文章内容
+2. 用户粘贴后，根据内容生成 slug（同上规则）
+3. 创建 `app/components/[slug]/content.md`
+4. 将用户提供的内容写入 content.md
+
+**slug 规则**：小写英文字母 + 连字符，例如 `atomic-habits`、`my-resume`
+
+---
+
+## Step 2: 分析文章内容
+
+读取 `app/components/[slug]/content.md`，分析以下内容：
+
+- **核心主题**：文章讲什么？
+- **情绪基调**：给人什么感受？
+- **可交互元素**：哪些内容可以做成交互组件？
+  - 概念解释 → 可视化演示
+  - 数据对比 → 动态图表
+  - 场景描述 → 沉浸式组件
+- **核心隐喻/场景**：有没有贯穿始终的意象或场景？
+
+---
+
+## Step 3: 生成设计文档和元数据
+
+基于分析结果，遵循 [DESIGN_GUIDE.md](./DESIGN_GUIDE.md) 的四个原则：
+
+### 生成 design.md
+
+创建 `app/components/[slug]/design.md`，包含：
+
+1. **内容理解**：文章主题、情绪、目标读者
+2. **设计直觉**：第一感受、脑海中的画面/颜色
+3. **设计方案**：
+   - 视觉风格（色彩、字体、视觉元素、风格关键词）
+   - 交互设计（列出交互点和实现方式）
+   - 沉浸式设计（核心隐喻、导航逻辑、滚动体验）
+   - 响应式设计（桌面端和移动端考虑）
+4. **技术实现**：核心组件、依赖库、性能考虑
+
+### 生成元数据
+
+准备以下元数据（暂存，待 Step 6 使用）：
+
+```ts
+{
+  slug: '[slug]',
+  title: '[中文标题 - AI 总结]',
+  description: '[简介 - AI 总结，1-2 句话]',
+  tags: ['[标签1]', '[标签2]', ...],  // AI 提取 3-5 个标签
+  publishedAt: '[当前日期 YYYY-MM-DD]',
+}
+```
+
+---
+
+## Step 4: 确认设计方案
+
+向用户展示 design.md 的内容，询问：
+
+- 是否满意设计方案？
+- 需要调整哪些地方？
+
+**如果需要调整**：
+- 根据用户反馈修改 design.md
+- 可以提供多个不同风格的设计方案供选择
+
+**如果满意**：继续下一步
+
+---
+
+## Step 5: 创建文件并实现组件
+
+### 5.1 创建路由文件
+
+创建 `app/[locale]/[slug]/page.tsx`：
+
+```tsx
+import { getTranslations } from 'next-intl/server'
+// 根据 design.md 引入需要的组件
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: '[slug].metadata' })
+
+  return {
+    title: t('title'),
+    description: t('description'),
+  }
+}
+
+export default async function ArticlePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+
+  return (
+    <main>
+      {/* 根据 design.md 组织内容 */}
+    </main>
+  )
+}
+```
+
+### 5.2 创建封面组件
+
+创建 `app/[locale]/[slug]/Cover.tsx`：
+
+```tsx
+interface CoverProps {
+  meta: {
+    slug: string
+    title: string
+    description: string
+    tags: string[]
+    publishedAt: string
+  }
+}
+
+export default function Cover({ meta }: CoverProps) {
+  return (
+    <div>
+      {/* 根据 design.md 实现封面设计 */}
+      <h2>{meta.title}</h2>
+      <p>{meta.description}</p>
+    </div>
+  )
+}
+```
+
+### 5.3 实现文章组件
+
+在 `app/components/[slug]/` 下，根据 design.md 实现所需组件。
+
+**原则**：
+- 遵循 design.md 的设计方案
+- 考虑桌面端和移动端响应式
+- 交互应该帮助理解内容，不是炫技
+
+---
+
+## Step 6: 添加到文章列表
+
+打开 `app/data/articles.ts`，将 Step 3 生成的元数据对象添加到数组中：
+
+```ts
+export const articles = [
+  // ... 现有文章
+  {
+    slug: '[新文章 slug]',
+    title: '[标题]',
+    description: '[简介]',
+    tags: ['[标签1]', '[标签2]'],
+    publishedAt: '[日期]',
+  }
+]
+```
+
+---
+
+## Step 7: 添加翻译
+
+在 `messages/zh/common.json` 和 `messages/en/common.json` 中添加文章相关的翻译：
+
+```json
+{
+  "[slug]": {
+    "metadata": {
+      "title": "...",
+      "description": "..."
+    }
+  }
+}
+```
+
+**注意**：
+- 中文是原文
+- 英文由 AI 自动翻译
+
+---
+
+## Step 8: 测试和迭代
+
+提醒用户：
+
+1. 运行 `pnpm dev` 启动开发服务器
+2. 访问 `/zh/[slug]` 查看文章详情页
+3. 访问 `/zh` 查看首页的文章封面
+4. 测试桌面端和移动端的显示效果
+
+根据测试结果进行调整优化。
+
+---
+
+## 注意事项
+
+- slug（文章 URL 名称）必须使用 kebab-case（小写字母 + 连字符）
+- 所有新建文件必须使用绝对路径
+- 遵循 [ARCHITECTURE.md](./ARCHITECTURE.md) 的文件组织规范
+- 遵循 [DESIGN_GUIDE.md](./DESIGN_GUIDE.md) 的设计原则
+- 优先考虑内容和用户体验，避免过度设计
+
+---
+
+## 相关文档
+
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - 技术架构
+- [DESIGN_GUIDE.md](./DESIGN_GUIDE.md) - 设计规范
+- [CLAUDE.md](../CLAUDE.md) - AI 协作入口
