@@ -146,6 +146,24 @@ export default function Cover({ meta }: CoverProps) {
 }
 ```
 
+**重要提示**：确保 Hero 组件支持首页点击跳转
+- Hero 组件需要接受 `inHome?: boolean` 参数
+- 当 `inHome={true}` 时，必须用 `<Link href="/[slug]">` 包裹整个内容
+- 参考示例：
+```tsx
+import { Link } from '@/i18n/navigation'
+
+export default function Hero({ inHome = false }: { inHome?: boolean }) {
+  const content = <section>...</section>
+
+  if (inHome) {
+    return <Link href="/[slug]" className="block">{content}</Link>
+  }
+
+  return content
+}
+```
+
 ### 5.3 实现文章组件
 
 在 `app/components/[slug]/` 下，根据 design.md 实现所需组件。
@@ -290,17 +308,21 @@ pnpm dev
 
 分别访问中英文版本，检查翻译是否生效：
 
-1. **中文版本**：访问 `http://localhost:3000/zh/[slug]`
-   - 所有文本显示中文
-   - 无硬编码英文
-
-2. **英文版本**：访问 `http://localhost:3000/en/[slug]`
-   - 所有文本显示英文
-   - 无硬编码中文
-
-3. **首页检查**：访问 `/zh` 和 `/en`
+1. **首页检查**（重要！）：访问 `/zh` 和 `/en`
    - 文章卡片正常显示
    - 标题和描述使用了翻译
+   - **✅ 关键：点击文章卡片能够成功跳转到文章详情页**
+   - 确认 Hero 组件在 `inHome={true}` 时用 `<Link>` 包裹
+
+2. **中文版本**：访问 `http://localhost:3000/zh/[slug]`
+   - 所有文本显示中文
+   - 无硬编码英文
+   - 交互组件正常工作
+
+3. **英文版本**：访问 `http://localhost:3000/en/[slug]`
+   - 所有文本显示英文
+   - 无硬编码中文
+   - 交互组件正常工作
 
 ### 8.4 报告验收结果
 
