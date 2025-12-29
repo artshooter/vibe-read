@@ -184,7 +184,7 @@ export default function Hero({ inHome = false }: { inHome?: boolean }) {
 
   if (inHome) {
     return (
-      <Link href="/mnist-neural-network" className="block group">
+      <Link href="/mnist-neural-network" className="block group" prefetch={true}>
         {content}
       </Link>
     )

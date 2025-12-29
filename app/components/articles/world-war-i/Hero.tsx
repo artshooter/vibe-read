@@ -28,6 +28,7 @@ export default function Hero({ inHome = false }: { inHome?: boolean }) {
                         </p>
                         <Link
                             href="/world-war-i"
+                            prefetch={true}
                             className="inline-flex items-center gap-3 px-8 py-4 bg-[#4a4238] border border-[#8c7b65] text-[#e3d8c8] hover:bg-[#8c7b65] hover:text-[#1a1816] transition-all duration-500 font-serif uppercase tracking-widest group"
                         >
                             <span>Enter the Trenches</span>

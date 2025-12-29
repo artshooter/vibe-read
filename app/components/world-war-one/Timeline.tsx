@@ -66,9 +66,11 @@ export default function Timeline() {
   ]
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const [hasStarted, setHasStarted] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   const handleStart = () => {
     setHasStarted(true)
+    setIsPlaying(true)
     // 自动播放动画
     let index = 0
     const interval = setInterval(() => {
@@ -76,6 +78,7 @@ export default function Timeline() {
       index++
       if (index >= events.length) {
         clearInterval(interval)
+        setIsPlaying(false)
       }
     }, 2000) // 增加到2秒，让用户有时间阅读
   }
@@ -99,16 +102,47 @@ export default function Timeline() {
         </motion.div>
 
         {/* 开始按钮 */}
-        {!hasStarted && (
-          <div className="text-center mb-8">
-            <button
-              onClick={handleStart}
-              className="px-8 py-3 bg-[#8b2020] text-white font-bold rounded hover:bg-[#a02525] transition-colors"
-            >
-              {t('timeline.startButton')}
-            </button>
-          </div>
-        )}
+        <div className="text-center mb-8">
+          <button
+            onClick={handleStart}
+            disabled={hasStarted}
+            className={`px-8 py-3 font-bold rounded transition-all duration-300 ${
+              hasStarted
+                ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                : 'bg-[#8b2020] text-white hover:bg-[#a02525]'
+            }`}
+          >
+            {isPlaying ? (
+              <span className="flex items-center gap-2">
+                <svg
+                  className="animate-spin h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                {t('timeline.playing') || '播放中...'}
+              </span>
+            ) : hasStarted ? (
+              t('timeline.completed') || '已完成'
+            ) : (
+              t('timeline.startButton')
+            )}
+          </button>
+        </div>
 
         {/* 时间线容器 */}
         <div className="relative">

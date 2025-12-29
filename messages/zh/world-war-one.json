@@ -97,6 +97,8 @@
     "title": "连锁反应：7天引爆全球",
     "subtitle": "点击时间线节点，查看战争如何一步步失控",
     "startButton": "观看连锁反应 →",
+    "playing": "播放中...",
+    "completed": "已完成",
     "events": {
       "event1": {
         "date": "6月28日",

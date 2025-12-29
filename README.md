@@ -1,6 +1,4 @@
-# 项目概览
-
-## 核心理念
+# Vibe Read
 
 **氛围阅读** - 每次阅读都是独特的体验
 
@@ -65,6 +63,6 @@ messages/                            # 翻译文件（zh/en）
 - 翻译：AI 自动生成英文翻译
 - 路由：`/zh/article` 和 `/en/article`
 
-## 创建新文章
+## 创建文章
 
-当用户说"帮我创建一篇新文章"时，严格遵循 [ARTICLE_CREATION.md](./docs/ARTICLE_CREATION.md) 的流程。
+遵循 [ARTICLE_CREATION.md](./docs/ARTICLE_CREATION.md) 的完整流程。

@@ -11,7 +11,7 @@ interface HeroProps {
 export default function Hero({ inHome = false }: HeroProps) {
   const t = useTranslations('world-war-one')
   return (
-    <Link href="/world-war-one" className="block">
+    <Link href="/world-war-one" className="block" prefetch={true}>
       <motion.div
         className={`relative w-full ${inHome ? 'h-[400px]' : 'h-[600px]'} bg-gradient-to-br from-[#2a2a2a] via-[#3a3a3a] to-[#1a1a1a] overflow-hidden cursor-pointer group`}
         initial={{ opacity: 0 }}

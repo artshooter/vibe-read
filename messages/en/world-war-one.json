@@ -97,6 +97,8 @@
     "title": "Chain Reaction: 7 Days to Global War",
     "subtitle": "Click timeline nodes to see how the war spiraled out of control",
     "startButton": "Watch the chain reaction →",
+    "playing": "Playing...",
+    "completed": "Completed",
     "events": {
       "event1": {
         "date": "June 28",
