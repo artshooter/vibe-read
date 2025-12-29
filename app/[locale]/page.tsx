@@ -13,7 +13,7 @@ export default function HomePage() {
 
       {/* Header */}
       <div className="flex flex-col items-center justify-center py-32">
-        <h1 className="text-2xl md:text-3xl font-extralight tracking-[0.3em] text-white/60">氛围博客</h1>
+        <h1 className="text-2xl md:text-3xl font-extralight tracking-[0.3em] text-white/60">{t('home.blogTitle')}</h1>
       </div>
 
       {/* Articles Grid */}

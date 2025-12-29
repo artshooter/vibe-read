@@ -1,3 +1,5 @@
+<img src="./app/icon.png" width="48" height="48" alt="icon" />
+
 # Vibe Blog
 **氛围博客** - 每篇文章都带给你独特的体验
 
