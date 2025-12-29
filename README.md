@@ -1,6 +1,4 @@
-<img src="./app/icon.png" width="48" height="48" alt="icon" />
-
-# Vibe Blog
+# <img src="./app/icon.png" width="32" height="32" alt="icon" /> Vibe Blog
 **氛围博客** - 每篇文章都带给你独特的体验
 
 - 视觉风格匹配文章情绪，交互组件帮助理解内容
